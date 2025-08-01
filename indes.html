@@ -1,0 +1,501 @@
+<style>
+  :root {
+    --brand-color: #c33067;
+    --accent-light: #fff6f1;
+    --text-dark: #521515;
+    --note-color: #963828;
+  }
+
+  .container-fluid {
+    padding: 30px;
+    border-radius: 24px;
+    margin: 40px auto;
+    max-width: 960px;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    animation: slideUpFadeIn 1.2s ease-out;
+  }
+
+  @keyframes slideUpFadeIn {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .section {
+    flex: 1;
+    min-width: 280px;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+    color: var(--note-color);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .input-box {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e4dcdc;
+  }
+
+  .input-box input {
+    font-size: 1.6rem;
+    border: none;
+    background: transparent;
+    width: 160px;
+    outline: none;
+  }
+
+  .note, .note-flaneur {
+    font-size: 1.1rem;
+    color: var(--note-color);
+    margin-top: 10px;
+  }
+
+  .summary {
+    text-align: center;
+  }
+
+  .summary img {
+    max-width: 70px;
+    margin-bottom: 12px;
+    animation: slideUpFadeIn 1.4s ease-in-out;
+  }
+
+  .redemption-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+
+  .box {
+     background: white;
+    padding: 14px 20px;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    min-width: 140px;
+  }
+.box:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+  .box p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+
+  .box h1 {
+    margin: 0;
+    color: var(--brand-color);
+    font-size: 1.4rem;
+  }
+
+  .progress {
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 10px;
+    background: #f0f2d0;
+    position: relative;
+    border-radius: 5px;
+  }
+
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 10px;
+    width: 50px;
+    background: var(--brand-color);
+    border-radius: 5px;
+  }
+
+  .details {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 6px 0;
+    color: var(--text-dark);
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    background: var(--brand-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background 0.3s;
+  }
+
+  .btn:hover {
+    background: #7a2a2a;
+ 
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+ 
+  }
+
+  .links {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+
+  .links a:hover {
+    color: var(--brand-color);
+  }
+
+  @media screen and (max-width: 600px) {
+    .input-box input {
+      width: 120px;
+      font-size: 1.4rem;
+    }
+
+    .box h1 {
+      font-size: 1.2rem;
+    }
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .row {
+      flex-direction: column;
+    }
+
+    .summary img {
+      margin-left: 0 !important;
+    }
+  }
+</style>
+
+ {% if customer %}
+  <!-- ✅ Add the See Your Plan Button + Plan Details here (HTML above) -->
+{% else %}
+  <script>
+    window.location.href = '/account/login?return_to=/pages/your-emi-page';
+  </script>
+{% endif %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="section">
+      <h2>Investment Amount (EMI)</h2>
+      <div class="input-box">
+        ₹ <input type="number" id="emi" value="2000" step="1000" min="1000" onchange="calculate()">
+      </div>
+      <p class="note">Value must be in multiples of 1,000</p>
+      <p class="note-flaneur">Flâneur Global adds 25% of your EMI in the final month.</p>
+    </div>
+
+    <div class="section summary">
+      <img src="https://cdn-icons-png.flaticon.com/512/595/595728.png" alt="coins">
+      <p>Total redemption value</p>
+
+      <div class="redemption-boxes">
+        <div class="box">
+          <p>Total Invested</p>
+          <h1 id="invested">₹ 19,500</h1>
+        </div>
+        <div class="box">
+          <p>Total Redemption</p>
+          <h1 id="redemption">₹ 22,000</h1>
+        </div>
+      </div>
+
+      <div class="progress">
+        <div class="progress-bar"></div>
+      </div>
+
+      <div class="details"><span>1st Month (75% of EMI)</span><span id="firstMonth">₹ 1,500</span></div>
+      <div class="details"><span>2nd - 10th Month (EMI × 9)</span><span id="middleMonths">₹ 18,000</span></div>
+      <div class="details"><span>Return of EMI (Month 11)</span><span id="emiReturn">₹ 2,000</span></div>
+      <div class="details"><span>Flâneur 25% Bonus</span><span id="bonus">₹ 500</span></div>
+      <div class="details" style="font-size: 1.1rem;"><span>Total Redemption</span><span id="total">₹ 22,000</span></div>
+      <p class="note">You will pay only 75% now: <strong id="actualEmiToPay">₹ 1500</strong></p>
+
+<!-- ✅ Add this below EMI details section -->
+<h2 style="margin-top: 40px;">My EMI Tracker</h2>
+<div class="details">
+  <span>EMIs Paid:</span> <span id="emiPaidCount">0</span> / 10
+</div>
+<div class="progress-bar" style="margin-bottom: 10px; position: relative; background: #eee;">
+  <div id="emiProgressFill" style="background: var(--brand-color); height: 10px; width: 0%; border-radius: 5px;"></div>
+</div>
+
+<!-- ✅ Optional: Reset Button for testing -->
+ 
+    </div>
+  </div>
+
+  <div class="btn-group">
+ 
+    <button class="btn" id="payInstallmentBtn">Pay Installment</button>
+  </div>
+
+  <div class="links">
+<a href="#" id="downloadBrochureBtn">
+  <img src="https://cdn-icons-png.flaticon.com/128/2989/2989988.png" width="20">
+  Download Brochure
+</a>
+
+
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/2099/2099176.png" width="20"> Send</a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/597/597177.png" width="20"> FAQ</a>
+    <a href="#">Terms and Conditions</a>
+  </div>
+  <!-- ✅ See Your Plan Toggle Button -->
+<div style="text-align: center; margin-top: 20px;">
+  <button class="btn" onclick="togglePlanDetails()" id="seePlanBtn">See Your Plan</button>
+</div>
+
+<!-- ✅ Hidden Plan Summary (Shown only if logged in) -->
+<div id="planDetails" style="display: none; margin-top: 20px;">
+  <div class="box" style="max-width: 100%; margin: auto; text-align: left;">
+    <p><strong>Plan Selected:</strong> ₹<span id="planEmi">--</span> / month</p>
+    <p><strong>Start Date:</strong> <span id="startDate">--</span></p>
+    <p><strong>End Date:</strong> <span id="endDate">--</span></p>
+    <p><strong>Next EMI Date:</strong> <span id="nextEmi">--</span> (<span id="daysLeft">--</span> days left)</p>
+    <p><strong>Expected Profit:</strong> ₹<span id="profitAmount">--</span></p>
+    <p><strong>Name:</strong> {{ customer.first_name }} {{ customer.last_name }}</p>
+    <p><strong>Email:</strong> {{ customer.email }}</p>
+    <p><strong>Phone:</strong> {{ customer.phone | default: 'Not Available' }}</p>
+  </div>
+</div>
+
+</div>
+
+<!-- ✅ Razorpay Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  function animateNumber(id, targetValue) {
+    const el = document.getElementById(id);
+    const currentText = el.textContent.replace(/[^\d]/g, '');
+    const start = parseInt(currentText, 10) || 0;
+    const duration = 600;
+    const frameRate = 30;
+    const steps = Math.round(duration / frameRate);
+    const diff = targetValue - start;
+    let count = 0;
+
+    function update() {
+      count++;
+      const progress = count / steps;
+      const currentValue = Math.round(start + diff * progress);
+      el.textContent = `₹ ${currentValue.toLocaleString()}`;
+      if (count < steps) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = `₹ ${targetValue.toLocaleString()}`;
+      }
+    }
+
+    update();
+  }
+
+  function calculate() {
+    let savedEmi = parseInt(localStorage.getItem("emiAmount"));
+    let emiInput = document.getElementById('emi');
+
+    if (!isNaN(savedEmi)) {
+      emiInput.value = savedEmi;
+    }
+
+    let emi = parseInt(emiInput.value);
+    if (emi % 10 !== 0) {
+      emi = Math.round(emi / 10) * 10;
+      emiInput.value = emi;
+    }
+
+    const firstMonth = Math.round(emi * 0.75);
+    const nextNineMonths = emi * 9;
+    const invested = firstMonth + nextNineMonths;
+    const flaneurReturn = emi;
+    const flaneurBonus = Math.round(emi * 0.25);
+    const redemption = invested + flaneurReturn + flaneurBonus;
+
+    animateNumber('firstMonth', firstMonth);
+    animateNumber('middleMonths', nextNineMonths);
+    animateNumber('emiReturn', flaneurReturn);
+    animateNumber('bonus', flaneurBonus);
+    animateNumber('redemption', redemption);
+    animateNumber('total', redemption);
+    animateNumber('invested', invested);
+
+    document.getElementById('actualEmiToPay').textContent = `₹ ${firstMonth.toLocaleString()}`;
+  }
+
+  function updateEmiTracker() {
+    const emiPaid = parseInt(localStorage.getItem("emiPaid") || "0");
+    const total = 10;
+    const percentage = Math.min(100, (emiPaid / total) * 100);
+    document.getElementById("emiPaidCount").textContent = emiPaid;
+    document.getElementById("emiProgressFill").style.width = percentage + "%";
+  }
+
+  function togglePlanDetails() {
+    const box = document.getElementById("planDetails");
+    box.style.display = box.style.display === "none" ? "block" : "none";
+
+    const emi = parseInt(localStorage.getItem("emiAmount")) || parseInt(document.getElementById("emi").value);
+    const bonus = Math.round(emi * 0.25);
+    const profit = bonus;
+
+    const startDateRaw = localStorage.getItem("emiStartDate");
+    const today = new Date();
+    const startDate = startDateRaw ? new Date(startDateRaw) : today;
+
+    const end = new Date(startDate);
+    end.setMonth(end.getMonth() + 10);
+
+    const emiPaid = parseInt(localStorage.getItem("emiPaid") || "0");
+    const nextEmiDate = new Date(startDate);
+    nextEmiDate.setMonth(startDate.getMonth() + emiPaid + 1);
+    const daysLeft = Math.ceil((nextEmiDate - today) / (1000 * 60 * 60 * 24));
+
+    document.getElementById("planEmi").textContent = emi.toLocaleString();
+    document.getElementById("profitAmount").textContent = profit.toLocaleString();
+    document.getElementById("startDate").textContent = startDate.toLocaleDateString("en-IN");
+    document.getElementById("endDate").textContent = end.toLocaleDateString("en-IN");
+    document.getElementById("nextEmi").textContent = nextEmiDate.toLocaleDateString("en-IN");
+    document.getElementById("daysLeft").textContent = daysLeft;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    calculate();
+    updateEmiTracker();
+
+    document.getElementById('payInstallmentBtn').addEventListener('click', () => {
+      const currentEmiInput = parseInt(document.getElementById('emi').value);
+      const savedEmi = parseInt(localStorage.getItem("emiAmount"));
+      const emiPaid = parseInt(localStorage.getItem("emiPaid") || "0");
+
+      // If first time, save the selected EMI
+      if (!savedEmi) {
+        localStorage.setItem("emiAmount", currentEmiInput);
+        localStorage.setItem("emiStartDate", new Date().toISOString());
+      }
+
+      const emiAmount = savedEmi || currentEmiInput;
+      const isFirstPayment = emiPaid === 0;
+      const payAmount = isFirstPayment ? Math.round(emiAmount * 0.75) : emiAmount;
+      const emiInPaise = payAmount * 100;
+
+      const options = {
+        key: "rzp_live_XFaxLS3l3mg0Tu",
+        amount: emiInPaise,
+        currency: "INR",
+        name: "Flâneur Global",
+        description: `EMI #${emiPaid + 1} - Paying ₹${payAmount}`,
+        image: "https://cdn.shopify.com/s/files/1/0654/1901/8445/files/Screenshot_2025-06-17_181149.png?v=1750164138",
+        handler: function (response) {
+          alert("✅ Payment successful! Razorpay Payment ID: " + response.razorpay_payment_id);
+          const updatedCount = emiPaid + 1;
+          localStorage.setItem("emiPaid", updatedCount);
+          updateEmiTracker();
+        },
+        prefill: {
+          name: "",
+          email: "",
+          contact: ""
+        },
+        theme: {
+          color: "#c33067"
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
+  });
+</script>
+
+<!-- ✅ jsPDF Brochure Generator -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  document.getElementById("downloadBrochureBtn").addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("userName")?.value || "N/A";
+    const email = document.getElementById("userEmail")?.value || "N/A";
+    const phone = document.getElementById("userPhone")?.value || "N/A";
+    const emi = localStorage.getItem("emiAmount") || document.getElementById("emi").value;
+
+    const invested = document.getElementById("invested").textContent;
+    const redemption = document.getElementById("redemption").textContent;
+    const bonus = document.getElementById("bonus").textContent;
+    const total = document.getElementById("total").textContent;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text("📄 Flâneur EMI Brochure", 20, 20);
+
+    doc.setFontSize(12);
+    doc.text(`👤 Name: ${name}`, 20, 35);
+    doc.text(`📧 Email: ${email}`, 20, 45);
+    doc.text(`📞 Phone: ${phone}`, 20, 55);
+    doc.text(`💳 EMI Amount: ₹${emi}`, 20, 65);
+
+    doc.text("💼 Investment Summary:", 20, 80);
+    doc.text(`- Invested: ${invested}`, 20, 90);
+    doc.text(`- Flâneur Bonus: ${bonus}`, 20, 100);
+    doc.text(`- Redemption Value: ${redemption}`, 20, 110);
+    doc.text(`- Total Value: ${total}`, 20, 120);
+
+    doc.text("📅 EMI Duration: 10 Months", 20, 135);
+    doc.text("✅ Bonus Month: 11th", 20, 145);
+    doc.text("📌 Note: This is a system-generated brochure based on your selected EMI.", 20, 165);
+
+    doc.save(`Flaneur_EMI_Brochure_${name.replace(/\s/g, '_')}.pdf`);
+  });
+</script>
